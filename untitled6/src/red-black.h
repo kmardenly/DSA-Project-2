@@ -93,21 +93,6 @@ class RedBlack {
   TreeNode* root = nullptr;
   TreeNode* nullLeaf = nullptr; //the null black leaves on the tree
 
-  //some helper functions related to color
-  void swapColors(TreeNode* a, TreeNode* b) { //util that just swaps colors
-    if (!a || !b) {
-      return;
-      }
-    int temp = a->color;
-    a->color = b->color;
-    b->color = temp;
-  }
-
-  void newColor(TreeNode* newTop, TreeNode* pushedDown) {
-    if (!newTop || !pushedDown) return;
-    newTop->color     = pushedDown->color;  // usually parent's old color
-    pushedDown->color = 1;                  // red
-  }
 
   //the rotate functions are pulled from my AVL project
   static TreeNode* rotateRight(TreeNode* parent) { //this should be O(1)
@@ -147,20 +132,16 @@ class RedBlack {
 //remember red is 1 and black is 0
 //the inserted node (i will call iNode) is always red
 
-  void fixInsertHelper(TreeNode* iNode, bool left, TreeNode* (*a)(TreeNode*), TreeNode* (*b)(TreeNode*)) {
+  void insertHelper(TreeNode* iNode, bool left, TreeNode* (*a)(TreeNode*), TreeNode* (*b)(TreeNode*)) {
     //referencing this for passing functions as parameters:
     // https://www.geeksforgeeks.org/cpp/passing-a-function-as-a-parameter-in-cpp/
     // basically i'm making this function so i don't have to write out what is essentially the same code for when
     // the parent of iNode is a right or left subchild
+
     //when parent is left, pass rotate left as a, rotate right as b
 
-    /* insert cases from https://pages.cs.wisc.edu/~cs400/readings/Red-Black-Trees/
-  case 1: iNode's parent is black -> there is nothing to adjust
-  case 2: iNode's parent is red -> go to 2 different subcases
-  case 2a: iNode's uncle is black or null
-  case 2b: iNode's uncle is red
+    // insert cases from https://pages.cs.wisc.edu/~cs400/readings/Red-Black-Trees/ are 1, 2a, 2b
 
- */
     TreeNode* papa = iNode->parent; // parent of iNode
     TreeNode* gpa = papa->parent; // grandparent
     TreeNode* uncle = gpa->left; //uncle
@@ -189,20 +170,44 @@ class RedBlack {
     }
   }
 
-  void fixInsert(TreeNode* iNode) {
-    while (iNode->parent->color == 1) { //while the color is parent is red (this handles case a)
-      if (iNode->parent == iNode->parent->parent->left) { //figuring out if parent of iNode is a left child or right child
-        //here parent is left child
-        fixInsertHelper(iNode, true, &rotateLeft, &rotateRight);
-      }
-      else {
-        //here parent is right child
-        fixInsertHelper(iNode, false, &rotateRight, &rotateLeft);
-      }
-    }
-    root->color = 0;  //just making sure
-  }
     public:
+      void insert(Major major) {
+        TreeNode* iNode = new TreeNode(major, nullLeaf, nullLeaf);
+        iNode->color = 1;
+        TreeNode* tempA = root; //start traversing at the root
+        TreeNode* tempB = nullLeaf; // provisional "parent" of iNode before i insert it
+        while (tempA != nullLeaf) {
+          tempB = tempA;
+          if (compareName(tempA->major, major)) { //if root > iNode
+            tempA = tempA->left;
+          }
+          else {
+            tempA = tempA->right;
+          }
+        }
+        iNode->parent = tempB;
+        if (tempB == nullLeaf) {
+          root = iNode;
+        }
+        else if (compareName(tempB->major, major)) { //if tempB > iNode
+          tempB->left = iNode;
+        }
+        else {
+          tempB->right = iNode;
+        }
+        while (iNode->parent->color == 1) { //while the color is parent is red (this handles case 1)
+          if (iNode->parent == iNode->parent->parent->left) { //figuring out if parent of iNode is a left child or right child
+            //here parent is left child
+            insertHelper(iNode, true, &rotateLeft, &rotateRight);
+          }
+          else {
+            //here parent is right child
+            insertHelper(iNode, false, &rotateRight, &rotateLeft);
+          }
+        }
+        root->color = 0;  //just making sure
+      }
+
 
 
 };
