@@ -17,16 +17,63 @@ using namespace std;
 // but i'm also just adding this preface :3
 
 struct Major { //holds all of the information relevant to the major
-    string name;
-    float avgSalary;
-    float unemployRate;
-    int unisWithMajor;
+  string year;
+  int total;
+  string name;
+  float highSalary;
+  float lowSalary;
+  float avgSalary;
+  float medianSalary;
+  int numSalaries;
+  float StandardDevSalary;
+  int asians;
+  int minories;
+  int whites;
+  int females;
+  int males;
+  int num_bachelors;
+  int num_doctorates;
+  int num_masters;
+  int professionals;
+  int type_business;
+  int type_educational;
+  int type_government;
+  int notInField_careerChange;
+  int notInField_Family;
+  int notInField_jobLocation;
+  int notInField_jobNotAvailable;
+  int notInField_other;
+  int notInField_pay;
+  int notInField_workConditions;
+  int notWorking_Family;
+  int notWorking_Layoff;
+  int notWorking_jobNotavailable;
+  int notWorking_noNeed;
+  int notWorking_student;
+  int employedRate;
+  int notInLaborForce;
+  int unemployRate;
+  int WorkActivity_finance;
+  int WorkActivity_appliedResearch;
+  int WorkActivity_basicResearch;
+  int WorkActivity_ComputerApplication;
+  int WorkActivity_design;
+  int WorkActivity_development;
+  int WorkActivity_humanResources;
+  int WorkActivity_management;
+  int WorkActivity_other;
+  int WorkActiviy_production;
+  int WorkActivity_professionalService;
+  int WorkActivity_productivityManagement;
+  int WorkActivity_sales;
+  int WorkActivity_teaching;
+  int unisWithMajor;
 
-    Major(string w, float x, float y, int z ): name (w), avgSalary(x),  unemployRate(y), unisWithMajor(z) {}
-    public:
-      string getName() {
-        return name;
-      }
+  Major(string w, float x, float y, int z ): name (w), avgSalary(x),  unemployRate(y), unisWithMajor(z) {}
+  public:
+    string getName() {
+      return name;
+    }
 };
 
 struct TreeNode { //this is essentially the same node struct i use in my AVL tree
