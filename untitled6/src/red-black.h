@@ -18,58 +18,22 @@ using namespace std;
 
 struct Major { //holds all of the information relevant to the major
   string year;
-  int total;
+  int num_degrees;
   string name;
   float highSalary;
   float lowSalary;
   float avgSalary;
-  float medianSalary;
-  int numSalaries;
-  float StandardDevSalary;
-  int asians;
-  int minories;
-  int whites;
-  int females;
-  int males;
-  int num_bachelors;
-  int num_doctorates;
-  int num_masters;
-  int professionals;
-  int type_business;
-  int type_educational;
-  int type_government;
-  int notInField_careerChange;
-  int notInField_Family;
-  int notInField_jobLocation;
-  int notInField_jobNotAvailable;
-  int notInField_other;
-  int notInField_pay;
-  int notInField_workConditions;
-  int notWorking_Family;
-  int notWorking_Layoff;
-  int notWorking_jobNotavailable;
-  int notWorking_noNeed;
-  int notWorking_student;
-  int employedRate;
-  int notInLaborForce;
-  int unemployRate;
-  int WorkActivity_finance;
-  int WorkActivity_appliedResearch;
-  int WorkActivity_basicResearch;
-  int WorkActivity_ComputerApplication;
-  int WorkActivity_design;
-  int WorkActivity_development;
-  int WorkActivity_humanResources;
-  int WorkActivity_management;
-  int WorkActivity_other;
-  int WorkActiviy_production;
-  int WorkActivity_professionalService;
-  int WorkActivity_productivityManagement;
-  int WorkActivity_sales;
-  int WorkActivity_teaching;
+  string popularEmployerType;
+  string popularReasonNotInField;
+  string popularReasonNotWorking;
+  string popularWorkActivity;
+  float employedRate;
+  float unemployRate;
   int unisWithMajor;
 
-  Major(string w, float x, float y, int z ): name (w), avgSalary(x),  unemployRate(y), unisWithMajor(z) {}
+  Major(string a, int b, string w, float c, float d, float x, string e, string f, string g, string h, float i, float y, int z ) :
+    year(a), num_degrees(b), name (w), highSalary(c), lowSalary(d), avgSalary(x), popularEmployerType(e),
+    popularReasonNotInField(f), popularReasonNotWorking(g), popularWorkActivity(h), employedRate(i), unemployRate(y), unisWithMajor(z) {}
   public:
     string getName() {
       return name;
