@@ -156,7 +156,6 @@ class RedBlack {
 
   // basically i'm making the insert/deleteRotateRecolor functions so i don't have to write out mirrored code
   void insertRotateRecolor(TreeNode*& iNode, bool left) {
-    //when parent is left, pass rotate left as a, rotate right as b
     //remember red is 1 and black is 0
 
     // insert cases from https://pages.cs.wisc.edu/~cs400/readings/Red-Black-Trees/ are 1, 2a, 2b
@@ -167,7 +166,7 @@ class RedBlack {
     if (left) {
       uncle = gpa->right; // uncle
     }
-    if (uncle->color == 1) { //case 2b
+    if (uncle->color == 1) { //case 2b -> uncle is red
       papa->color = 0;
       uncle->color = 0;
       if (gpa != root) {
@@ -175,8 +174,8 @@ class RedBlack {
       }
       iNode = gpa;
     }
-    else { //case 2a
-      if ((left and iNode == papa->right) or (!left and iNode == papa->left)) {
+    else { //case 2a -> uncle is black
+      if ((left and iNode == papa->right) or (!left and iNode == papa->left)) { //mirrored logic done here
         iNode = papa;
         if (left) {
           rotateLeft(iNode);
@@ -200,14 +199,14 @@ class RedBlack {
   }
 
   void removeRotateRecolor(TreeNode* rNode) {
-    //when parent is left, pass rotate left as a, rotate right as b
     //referencing this duke thingy:
     // https://users.cs.duke.edu/~reif/courses/alglectures/arge.lectures/Notes-RedBlackTrees.pdf
     while (rNode != root and rNode->color == 0) {
-      bool left = (rNode == rNode->parent->left);
-      TreeNode* sibling = rNode->parent->left; //uncle
+      bool left = (rNode == rNode->parent->left); //i had to update the value inside the function instead of passing it
+      //as a parameter since this value will change as i work upwards
+      TreeNode* sibling = rNode->parent->left;
       if (left) {
-        sibling = rNode->parent->right; // uncle
+        sibling = rNode->parent->right;
       }
       if (sibling->color == 1) { //sibling is red
         sibling->color = 0;
@@ -253,13 +252,14 @@ class RedBlack {
           sibling->left->color = 0;
           rotateRight(rNode->parent);
         }
-        rNode = root;
+        rNode = root; //it becomes the root (according to the duke reference)
       }
     }
-    rNode->color = 0;
+    rNode->color = 0; //just making sure i don't mess this value up anywhere
   }
 
   //another helper for the remove function, moves subtrees (duh)
+  //just replaces the the deleted subtree with the other subtree parameter
   void subtreeManager(TreeNode* deleted, TreeNode* subtree) {
     //a and b are the roots of the subtrees to be managed
     if (deleted->parent == nullLeaf) {
@@ -306,17 +306,21 @@ class RedBlack {
       }
 
       void destroyTree(TreeNode* node) {
-            if (node == nullLeaf) return;
+            if (node == nullLeaf) {
+              return;
+            }
             destroyTree(node->left);
             destroyTree(node->right);
             delete node;
       }
 
     TreeNode* getRoot() {
-        return root;
+        return root; //i made this so i can access the root value when i test my code :3
       }
 
-      TreeNode* search(string name) {
+
+  //the search functions just use standard bst logic. nothing fancy here :)
+      TreeNode* search(string name) { 
         TreeNode* traverse = root;
         while (traverse != nullLeaf and name != traverse->majorName) {
             if (compareName(traverse->majorName, name)) {
@@ -352,6 +356,8 @@ class RedBlack {
           inorder(node->right, storeOrder);
       }
 
+      //this is mostly pulled from my avl project (with relevant tweaks) because it just follows standard bst logic
+      //the insertRotateRecolor function handles all of the red-black specific stuff
       void insert(Major major) {
         TreeNode* iNode = new TreeNode(major, nullLeaf, nullLeaf);
         iNode->color = 1;
@@ -396,13 +402,13 @@ class RedBlack {
           return; //node to be deleted does not exist
         }
         TreeNode* temp = rNode; //
-        int saveTempColor = temp->color; //i use this to fix when both are black
+        int saveTempColor = temp->color; //i use this to fix when both children are black
         TreeNode* replace; // child that moves into y's old position
 
         // borrowing a lot of bst delete logic from my avl tree project
         if (rNode->left == nullLeaf) { //one right subchild (or no children)
           replace = rNode->right;
-          subtreeManager(rNode, rNode->right);
+          subtreeManager(rNode, rNode->right); //rNode->right is null when there's no children so the case is handled
         }
         else if (rNode->right == nullLeaf) { //one left subchild
           replace = rNode->left;
@@ -428,7 +434,7 @@ class RedBlack {
         delete rNode;
 
         if (saveTempColor == 0) {
-        removeRotateRecolor(replace);
+        removeRotateRecolor(replace); //doing the red-black fixing stuff here
         }
       }
 };
