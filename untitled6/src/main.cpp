@@ -14,6 +14,8 @@ int main(){
     bool exited = false;
     bool dsrb = false;
     bool loaded = false;
+    bool student_selected = false;
+    Student* selected_student;
     int new_input = 0;
     RedBlack rbtree;
    // HashTable<string, int> hashtree(10000);
@@ -33,39 +35,76 @@ int main(){
                LoadDataSet(rbtree, "data/college_student_placement_dataset.csv"); // hashtree,
                 dsrb = true;
                 loaded = true;
-                cout;
                 break;
             case 2:
-                cout;
+                if (!loaded) {
+                    cout << "Error: Load Data First" << endl;
+                }
+                string id;
+                cout << "Enter ID:" << endl;
+                cin >> id;
+                student_selected = true;
+                if (dsrb) {
+                    //selected_student = rbtree.search(id); (We need to match up the student class and the node class in some way)
+                    cout << "Student" << id << " found" << endl;
+                }
+                else {
+                    //selected_student = hashtree.search(id); (We need to match up the student class and the node class in some way)
+                    cout << "Student" << id << " found" << endl;
+                }
                 break;
             case 3:
-                cout;
+                if (!loaded) {
+                    cout << "Error: Load Data First" << endl;
+                }
+                if (!student_selected) {
+                    cout << "Error: No Student Selected" << endl;
+                }
                 break;
             case 4:
-                cout;
+                if (!loaded) {
+                    cout << "Error: Load Data First" << endl;
+                }
                 break;
             case 5:
-                cout;
+                if (!loaded) {
+                    cout << "Error: Load Data First" << endl;
+                }
                 break;
             case 6:
-                cout;
+                if (!loaded) {
+                    cout << "Error: Load Data First" << endl;
+                }
                 break;
             case 7:
-                cout;
+                if (!loaded) {
+                    cout << "Error: Load Data First" << endl;
+                }
                 break;
             case 8:
-                cout;
+                if (!loaded) {
+                    cout << "Error: Load Data First" << endl;
+                }
                 break;
             case 9:
-                cout;
+                if (!loaded) {
+                    cout << "Error: Load Data First" << endl;
+                }
                 break;
             case 10:
-                cout;
+                if (!loaded) {
+                    cout << "Error: Load Data First" << endl;
+                }
                 break;
             case 11:
-                cout;
+                if (!loaded) {
+                    cout << "Error: Load Data First" << endl;
+                }
                 break;
             case 12:
+                if (!loaded) {
+                    cout << "Error: Load Data First" << endl;
+                }
                 dsrb = false;
                 break;
         }
