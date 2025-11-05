@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <functional>
+#include "Student.h"
 using namespace std;
 
 // hi! i (keira) will heavily reference the logic and structure of my AVL tree project code because
@@ -12,44 +13,25 @@ using namespace std;
 //also i noticed that a lot of my sources cited CLRS which i looked into and CLRS is apparently an influential CS textbook
 //so i figured i would mention that a lot of the information i'm getting on red-black trees is coming from here
 
-struct Major { //holds all of the information relevant to the major
-  string year;
-  int num_degrees;
-  string name;
-  float highSalary;
-  float lowSalary;
-  float avgSalary;
-  string popularEmployerType;
-  string popularReasonNotInField;
-  string popularReasonNotWorking;
-  string popularWorkActivity;
-  float employedRate;
-  float unemployRate;
-  int unisWithMajor;
-
-  Major(string a, int b, string w, float c, float d, float x, string e, string f, string g, string h, float i, float y, int z ) :
-    year(a), num_degrees(b), name (w), highSalary(c), lowSalary(d), avgSalary(x), popularEmployerType(e),
-    popularReasonNotInField(f), popularReasonNotWorking(g), popularWorkActivity(h), employedRate(i), unemployRate(y), unisWithMajor(z) {}
-public:
-  string getName() {
-    return name;
-  }
-};
 
 struct TreeNode { //this is essentially the same node struct i use in my AVL tree
     Major major;
+    Student student; //adding student object to treenode
+    int studentID;
     string majorName; //putting this in the treenode too just to make life easier
     int color; //adding the color of the node, 0 indicates black, 1 indicates red
     TreeNode* parent;
     TreeNode* left; //left and right are the left and right children
     TreeNode* right;
 
-    TreeNode(Major x, TreeNode* dad, TreeNode* nullLeaf) : major(x), majorName(x.getName()), color(0), parent(dad), left(nullLeaf), right(nullLeaf) {}
+    TreeNode(Major x, Student y, TreeNode* dad, TreeNode* nullLeaf) : major(x), student(y), studentID(student.id), majorName(x.getName()), color(0), parent(dad), left(nullLeaf), right(nullLeaf) {}
 };
 
 //setting up some helper functions here:
 
-//i'm sorting the nodes alphabetically by major name so these helpers just normalize the strings and compare them
+//these are obsolete functions from when the tree was sorted alphabetically by major name
+//tree is now sorted numerically by student id
+//keeping these up just in case- will remove if we don't use them anymore
 static string norm(const string& name) { //makes the names all lower case
     string normName = "";
     for (unsigned char c : name) {
@@ -288,6 +270,7 @@ class RedBlack {
       RedBlack() {
         nullLeaf = new TreeNode(
             Major("", 0, "", 0.0, 0.0, 0.0, "", "", "", "", 0.0, 0.0, 0),
+            Student("", "", "", "", "", "", "", "", "", ""),
             nullptr, nullptr
         );
         nullLeaf->color  = 0;
@@ -315,15 +298,19 @@ class RedBlack {
       }
 
     TreeNode* getRoot() {
-        return root; //i made this so i can access the root value when i test my code :3
+        return root;
       }
 
 
   //the search functions just use standard bst logic. nothing fancy here :)
-      TreeNode* search(string name) { 
+      TreeNode* search(string id) {
+        if (!isAllDigits(id)) {
+          return nullLeaf;
+        }
+        int intID = stoi(id);
         TreeNode* traverse = root;
-        while (traverse != nullLeaf and name != traverse->majorName) {
-            if (compareName(traverse->majorName, name)) {
+        while (traverse != nullLeaf and intID != traverse->studentID) {
+            if (traverse->studentID > intID) {
                 traverse = traverse->left;
             }
             else {
@@ -333,10 +320,10 @@ class RedBlack {
         return traverse;
       }
 
-      TreeNode* search(Major major) {
+      TreeNode* search(Student student) {
         TreeNode* traverse = root;
-        while (traverse != nullLeaf and major.name != traverse->majorName) {
-          if (compareName(traverse->majorName, major.name)) {
+        while (traverse != nullLeaf and student.id != traverse->studentID) {
+          if (traverse->studentID > student.id) {
             traverse = traverse->left;
           }
           else {
@@ -358,14 +345,14 @@ class RedBlack {
 
       //this is mostly pulled from my avl project (with relevant tweaks) because it just follows standard bst logic
       //the insertRotateRecolor function handles all of the red-black specific stuff
-      void insert(Major major) {
-        TreeNode* iNode = new TreeNode(major, nullLeaf, nullLeaf);
+      void insert(Major major, Student student) {
+        TreeNode* iNode = new TreeNode(major, student, nullLeaf, nullLeaf);
         iNode->color = 1;
         TreeNode* tempA = root; //start traversing at the root
         TreeNode* tempB = nullLeaf; // provisional "parent" of iNode before i insert it
         while (tempA != nullLeaf) {
           tempB = tempA;
-          if (compareName(tempA->major, major)) { //if root > iNode
+          if (tempA->studentID > student.id) { //if root > iNode
             tempA = tempA->left;
           }
           else {
@@ -376,7 +363,7 @@ class RedBlack {
         if (tempB == nullLeaf) {
           root = iNode;
         }
-        else if (compareName(tempB->major, major)) { //if tempB > iNode
+        else if (tempB->studentID > student.id) { //if tempB > iNode
           tempB->left = iNode;
         }
         else {
@@ -395,9 +382,9 @@ class RedBlack {
         root->color = 0;  //just making sure
       }
 
-      void remove(Major major) {
+      void remove(Student student) {
         //referencing this: https://users.cs.duke.edu/~reif/courses/alglectures/arge.lectures/Notes-RedBlackTrees.pdf
-        TreeNode* rNode = search(major);
+        TreeNode* rNode = search(student);
         if (rNode == nullLeaf) {
           return; //node to be deleted does not exist
         }
