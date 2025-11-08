@@ -78,6 +78,7 @@ int main() {
                     break;
                 }
                 cout << "Student IQ: " << selected_student->iq << endl;
+                break;
             case 4:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
@@ -88,7 +89,7 @@ int main() {
                     break;
                 }
                 cout << "Student Last Semester GPA: " << selected_student->prevgpa << endl;
-
+                break;
             case 5:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
@@ -99,6 +100,7 @@ int main() {
                     break;
                 }
                 cout << "Cumulative Student GPA: " << selected_student->gpa << endl;
+                break;
             case 6:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
@@ -109,6 +111,7 @@ int main() {
                     break;
                 }
                 cout << "Student Academic Performance: " << selected_student->perf << endl;
+                break;
             case 7:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
@@ -119,6 +122,7 @@ int main() {
                     break;
                 }
                 cout << "Student Extracurriculars: " << selected_student->ec << endl;
+                break;
             case 8:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
@@ -129,6 +133,7 @@ int main() {
                     break;
                 }
                 cout << "Student Communication Skills: " << selected_student->communication << endl;
+                break;
             case 9:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
@@ -139,6 +144,7 @@ int main() {
                     break;
                 }
                 cout << "Did Student have an Internship: " << selected_student->intern << endl;
+                break;
             case 10:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
@@ -149,6 +155,7 @@ int main() {
                     break;
                 }
                 cout << "Student Project Amount: " << selected_student->proj << endl;
+                break;
             case 11:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
@@ -159,6 +166,7 @@ int main() {
                     break;
                 }
                 cout << "Did Student Get a Job: " << selected_student->job << endl;
+                break;
             case 12:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;

@@ -27,10 +27,10 @@ void DisplayMenu(bool dsrb, bool loaded, Student* selected_student) {
     else{ cout << "N/A" << endl; }
     cout << "Student Selected: ";
     if (selected_student!= nullptr) {
-        cout << selected_student->id;
+        cout << selected_student->id<< endl << endl;
     }
     else {
-        cout << "N/A" << endl;
+        cout << "N/A" << endl < endl;
     }
 
     cout << "Choose an option below:" << endl << endl;
