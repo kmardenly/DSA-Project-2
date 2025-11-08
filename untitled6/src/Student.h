@@ -15,6 +15,22 @@ using namespace std;
 #ifndef STUDENT_H
 #define STUDENT_H
 
+static int safe_stoi(const string& s, int defaultValue = 0) {
+    try {
+        return stoi(s);
+    } catch (...) {
+        return defaultValue;
+    }
+}
+
+static float safe_stof(const string& s, float defaultValue = 0.0f) {
+    try {
+        return stof(s);
+    } catch (...) {
+        return defaultValue;
+    }
+}
+
  struct Student {
      int id;
      static int id_tracker;
@@ -31,14 +47,14 @@ using namespace std;
     Student(string scollegeid, string siq, string sprevgpa, string sgpa, string sperf, string sec, string scommunication, string sintern, string sproj, string sjob) {
         id = id_tracker++;
         collegeid = scollegeid;
-        iq = stoi(siq);
-        prevgpa = stof(sprevgpa);
-        gpa = stof(sgpa);
-        perf = stoi(sperf);
-        ec = stoi(sec);
-        communication = stoi(scommunication);
+        iq = safe_stoi(siq);
+        prevgpa = safe_stof(sprevgpa);
+        gpa = safe_stof(sgpa);
+        perf = safe_stoi(sperf);
+        ec = safe_stoi(sec);
+        communication = safe_stoi(scommunication);
         if (sintern == "No"){intern = false;} else {intern = true;}
-        proj = stoi(sproj);
+        proj = safe_stoi(sproj);
         if (sjob == "No"){job = false;} else {job = true;}
     }
 };

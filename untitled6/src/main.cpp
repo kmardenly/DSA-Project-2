@@ -77,6 +77,7 @@ int main() {
                     cout << "Error: No Student Selected" << endl;
                     break;
                 }
+                cout << "Student IQ: " << selected_student->iq << endl;
             case 4:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
@@ -86,6 +87,7 @@ int main() {
                     cout << "Error: No Student Selected" << endl;
                     break;
                 }
+                cout << "Student Last Semester GPA: " << selected_student->prevgpa << endl;
 
             case 5:
                 if (!loaded) {
@@ -96,6 +98,7 @@ int main() {
                     cout << "Error: No Student Selected" << endl;
                     break;
                 }
+                cout << "Cumulative Student GPA: " << selected_student->gpa << endl;
             case 6:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
@@ -105,6 +108,7 @@ int main() {
                     cout << "Error: No Student Selected" << endl;
                     break;
                 }
+                cout << "Student Academic Performance: " << selected_student->perf << endl;
             case 7:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
@@ -114,6 +118,7 @@ int main() {
                     cout << "Error: No Student Selected" << endl;
                     break;
                 }
+                cout << "Student Extracurriculars: " << selected_student->ec << endl;
             case 8:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
@@ -123,6 +128,7 @@ int main() {
                     cout << "Error: No Student Selected" << endl;
                     break;
                 }
+                cout << "Student Communication Skills: " << selected_student->communication << endl;
             case 9:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
@@ -132,6 +138,7 @@ int main() {
                     cout << "Error: No Student Selected" << endl;
                     break;
                 }
+                cout << "Did Student have an Internship: " << selected_student->intern << endl;
             case 10:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
@@ -141,6 +148,7 @@ int main() {
                     cout << "Error: No Student Selected" << endl;
                     break;
                 }
+                cout << "Student Project Amount: " << selected_student->proj << endl;
             case 11:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
@@ -150,9 +158,11 @@ int main() {
                     cout << "Error: No Student Selected" << endl;
                     break;
                 }
+                cout << "Did Student Get a Job: " << selected_student->job << endl;
             case 12:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
+                    break;
                 }
                 dsrb = false;
                 break;
