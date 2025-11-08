@@ -13,7 +13,7 @@ using namespace std;
 
 
 
-void DisplayMenu(bool dsrb, bool loaded) {
+void DisplayMenu(bool dsrb, bool loaded, Student* selected_student) {
     cout << "=================================\n Job Placement Analysis System \n=================================" << endl;
     cout << "Active Data Structure: ";
     if (loaded) {
@@ -25,10 +25,17 @@ void DisplayMenu(bool dsrb, bool loaded) {
         }
     }
     else{ cout << "N/A" << endl; }
+    cout << "Student Selected: ";
+    if (selected_student!= nullptr) {
+        cout << selected_student->id;
+    }
+    else {
+        cout << "N/A" << endl;
+    }
 
     cout << "Choose an option below:" << endl << endl;
     cout << "1. Load Placement Dataset" << endl;
-    cout << "2. Select College ID (1-100) (Select Student by ID(1-1000))" << endl; //this can also be select student
+    cout << "2. Select Student by ID(1-1000)" << endl; //this can also be select student
     cout << "3. Calculate Average IQ" << endl;
     cout << "4. Last Semester GPA" << endl;
     cout << "5. Cumulative GPA" << endl;
@@ -68,6 +75,6 @@ void LoadDataSet(HashTable<int, Student> hashtable, RedBlack& rbtree, const stri
         const Student s(collegeid, iq, prevgpa, gpa, performance, extra_curriculars, communication, intern, projects, job);
         //cout << collegeid << ", " << iq << ", " << prevgpa << ", " << gpa << ", " << performance << ", " << extra_curriculars << ", " <<  communication << ", " << intern << ", " << projects << ", " << job << endl;
         hashtable.insert(s.id, s);
-        //rbtree.insert(s);
+        rbtree.insert(s);
     }
 }

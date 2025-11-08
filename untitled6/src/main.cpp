@@ -14,14 +14,13 @@ int main() {
     bool exited = false;
     bool dsrb = false;
     bool loaded = false;
-    bool student_selected = false;
-    Student* selected_student;
+    Student* selected_student = nullptr;
     int new_input = 0;
     RedBlack rbtree;
     HashTable<int, Student> hashtable(10000);
 
     while(!exited) {
-        DisplayMenu(dsrb, loaded);
+        DisplayMenu(dsrb, loaded, selected_student);
         string input;
         cin >> input;
         try{new_input = stoi(input);}
@@ -46,18 +45,24 @@ int main() {
                 cin >> search_id;
                 try{id = stoi(search_id);}
                 catch(...){ cout << "Invalid ID\n" << endl; continue;}
-                student_selected = true;
                 if (dsrb) {
-                    //selected_student = rbtree.search(id); (We need to match up the student class and the node class in some way)
-                    cout << "Student" << id << " found" << endl;
+                    TreeNode* node = rbtree.search(to_string(id));
+                    if (node) {
+                        selected_student = &(node->student);
+                    }
+                    else {
+                        cout << "Error: Student Not Found" << endl;
+                    }
+
+                    cout << "Student " << id << " found" << endl;
                 }
                 else {
                     if (hashtable.if_contains(id)) {
-                        cout << "Student" << id << " found" << endl;
+                        cout << "Student " << id << " found" << endl;
                         selected_student = &(hashtable.get(id));
                     }
                     else {
-                        cout << "Student" << "not" << " found" << endl;
+                        cout << "Error: Student " << "not " << " found" << endl;
                     }
 
                 }
@@ -66,51 +71,85 @@ int main() {
             case 3:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
+                    break;
                 }
-                if (!student_selected) {
+                if (selected_student == nullptr) {
                     cout << "Error: No Student Selected" << endl;
+                    break;
                 }
-                break;
             case 4:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
+                    break;
                 }
-                break;
+                if (selected_student == nullptr) {
+                    cout << "Error: No Student Selected" << endl;
+                    break;
+                }
+
             case 5:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
+                    break;
                 }
-                break;
+                if (selected_student == nullptr) {
+                    cout << "Error: No Student Selected" << endl;
+                    break;
+                }
             case 6:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
+                    break;
                 }
-                break;
+                if (selected_student == nullptr) {
+                    cout << "Error: No Student Selected" << endl;
+                    break;
+                }
             case 7:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
+                    break;
                 }
-                break;
+                if (selected_student == nullptr) {
+                    cout << "Error: No Student Selected" << endl;
+                    break;
+                }
             case 8:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
+                    break;
                 }
-                break;
+                if (selected_student == nullptr) {
+                    cout << "Error: No Student Selected" << endl;
+                    break;
+                }
             case 9:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
+                    break;
                 }
-                break;
+                if (selected_student == nullptr) {
+                    cout << "Error: No Student Selected" << endl;
+                    break;
+                }
             case 10:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
+                    break;
                 }
-                break;
+                if (selected_student == nullptr) {
+                    cout << "Error: No Student Selected" << endl;
+                    break;
+                }
             case 11:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
+                    break;
                 }
-                break;
+                if (selected_student == nullptr) {
+                    cout << "Error: No Student Selected" << endl;
+                    break;
+                }
             case 12:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;

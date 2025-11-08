@@ -17,7 +17,7 @@ using namespace std;
 
  struct Student {
      int id;
-     int id_tracker = 1;
+     static int id_tracker;
      string collegeid;
      int iq;
      float prevgpa;
@@ -29,8 +29,7 @@ using namespace std;
      int proj;
      bool job;
     Student(string scollegeid, string siq, string sprevgpa, string sgpa, string sperf, string sec, string scommunication, string sintern, string sproj, string sjob) {
-        id = id_tracker;
-        id_tracker += 1;
+        id = id_tracker++;
         collegeid = scollegeid;
         iq = stoi(siq);
         prevgpa = stof(sprevgpa);
