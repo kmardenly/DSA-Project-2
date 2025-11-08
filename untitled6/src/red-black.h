@@ -13,16 +13,14 @@ using namespace std;
 //so i figured i would mention that a lot of the information i'm getting on red-black trees is coming from here
 
 struct TreeNode { //this is essentially the same node struct i use in my AVL tree
-    Major major;
     Student student; //adding student object to treenode
     int studentID;
-    string majorName; //putting this in the treenode too just to make life easier
     int color; //adding the color of the node, 0 indicates black, 1 indicates red
     TreeNode* parent;
     TreeNode* left; //left and right are the left and right children
     TreeNode* right;
 
-    TreeNode(Major x, Student y, TreeNode* dad, TreeNode* nullLeaf) : major(x), student(y), studentID(student.id), majorName(x.getName()), color(0), parent(dad), left(nullLeaf), right(nullLeaf) {}
+    TreeNode(Student y, TreeNode* dad, TreeNode* nullLeaf) :student(y), studentID(student.id), color(0), parent(dad), left(nullLeaf), right(nullLeaf) {}
 };
 
 class RedBlack {
@@ -212,7 +210,6 @@ class RedBlack {
       //public has the core functions: search, insert, remove (and an inorder traversal for funsies)
       RedBlack() {
         nullLeaf = new TreeNode(
-            Major("", 0, "", 0.0, 0.0, 0.0, "", "", "", "", 0.0, 0.0, 0),
             Student("", "", "", "", "", "", "", "", "", ""),
             nullptr, nullptr
         );
@@ -220,7 +217,6 @@ class RedBlack {
         nullLeaf->left   = nullLeaf;
         nullLeaf->right  = nullLeaf;
         nullLeaf->parent = nullLeaf;
-        nullLeaf->majorName = "";
 
         root = nullLeaf;
       }
@@ -275,20 +271,20 @@ class RedBlack {
         return traverse;
       }
 
-      void inorder(const TreeNode* node, vector<string>& storeOrder) const {
+      void inorder(const TreeNode* node, vector<int>& storeOrder) const {
         //this is pulled from my avl tree project
         if (node == nullLeaf) {
           return;
         }
           inorder(node->left, storeOrder);
-          storeOrder.push_back((node->majorName));
+          storeOrder.push_back((node->studentID));
           inorder(node->right, storeOrder);
       }
 
       //this is mostly pulled from my avl project (with relevant tweaks) because it just follows standard bst logic
       //the insertRotateRecolor function handles all of the red-black specific stuff
-      void insert(Major major, Student student) {
-        TreeNode* iNode = new TreeNode(major, student, nullLeaf, nullLeaf);
+      void insert(Student student) {
+        TreeNode* iNode = new TreeNode(student, nullLeaf, nullLeaf);
         iNode->color = 1;
         TreeNode* traverse = root; //start traversing at the root
         TreeNode* temp = nullLeaf; // provisional "parent" of iNode before i insert it
