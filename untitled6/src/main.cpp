@@ -6,11 +6,11 @@
 using namespace std;
 
 
+int Student::id_tracker = 0;
 
 
-
-int main(){
-    //setup the loop to stay on the menu unless exited, starts off with no data loaded and no data structure chosen, terminal input, initializing tree, Hashtable has an error currently so commented out
+int main() {
+    //set up the loop to stay on the menu unless exited, starts off with no data loaded and no data structure chosen, terminal input, initializing tree, Hashtable has an error currently so commented out
     bool exited = false;
     bool dsrb = false;
     bool loaded = false;
@@ -18,7 +18,7 @@ int main(){
     Student* selected_student;
     int new_input = 0;
     RedBlack rbtree;
-   // HashTable<string, int> hashtree(10000);
+    // HashTable<string, int> hashtree(10000);
 
     while(!exited) {
         DisplayMenu(dsrb, loaded);
@@ -27,16 +27,16 @@ int main(){
         try{new_input = stoi(input);}
         catch(...){ cout << "Invalid Input" << endl; continue;}
         switch(new_input) {
-        // different menu options are in Menu.cpp( AJ will keep working on different options)
+            // different menu options are in Menu.cpp( AJ will keep working on different options)
             case 0:
                 exited = true;
                 break;
             case 1:
-               LoadDataSet(rbtree, "data/college_student_placement_dataset.csv"); // hashtree,
+                LoadDataSet(rbtree, "data/college_student_placement_dataset.csv"); // hashtree,
                 dsrb = true;
                 loaded = true;
                 break;
-            case 2:
+            case 2: {
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
                 }
@@ -53,6 +53,7 @@ int main(){
                     cout << "Student" << id << " found" << endl;
                 }
                 break;
+            }
             case 3:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
@@ -109,5 +110,4 @@ int main(){
                 break;
         }
     }
-
 }
