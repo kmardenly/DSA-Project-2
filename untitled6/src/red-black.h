@@ -2,7 +2,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <functional>
 #include "Student.h"
 using namespace std;
 
@@ -12,7 +11,6 @@ using namespace std;
 
 //also i noticed that a lot of my sources cited CLRS which i looked into and CLRS is apparently an influential CS textbook
 //so i figured i would mention that a lot of the information i'm getting on red-black trees is coming from here
-
 
 struct TreeNode { //this is essentially the same node struct i use in my AVL tree
     Major major;
@@ -26,57 +24,6 @@ struct TreeNode { //this is essentially the same node struct i use in my AVL tre
 
     TreeNode(Major x, Student y, TreeNode* dad, TreeNode* nullLeaf) : major(x), student(y), studentID(student.id), majorName(x.getName()), color(0), parent(dad), left(nullLeaf), right(nullLeaf) {}
 };
-
-//setting up some helper functions here:
-
-//these are obsolete functions from when the tree was sorted alphabetically by major name
-//tree is now sorted numerically by student id
-//keeping these up just in case- will remove if we don't use them anymore
-static string norm(const string& name) { //makes the names all lower case
-    string normName = "";
-    for (unsigned char c : name) {
-      normName.push_back(tolower(c));
-    }
-    return normName;
-}
-
-static bool compareName(const Major& a, const Major& b) { //compares two strings alphabetically
-  //this one is preferable to the other compareName that takes strings as parameters because of the edge cases
-    string aName = norm(a.name);
-    string bName = norm(b.name);
-
-    if (aName < bName) {
-      return false;
-    }
-    if (aName > bName) {
-      return  true;
-    }
-
-    // edging cases for ordering by name
-    // using these when/if major names are identical (which they shouldn't be but yk)
-    if (a.avgSalary < b.avgSalary or a.unemployRate < b.unemployRate or a.unisWithMajor < b.unisWithMajor) {
-      return false;
-    }
-    if (a.avgSalary > b.avgSalary or a.unemployRate > b.unemployRate or a.unisWithMajor > b.unisWithMajor) {
-      return true;
-    }
-    return false;
-}
-
-static bool compareName(string a, string b) { //compares two strings alphabetically
-  //i need to check for equivalence every time i call this function bc i can't put in edge cases
-  string aName = norm(a);
-  string bName = norm(b);
-
-  if (aName < bName) {
-    return false;
-  }
-  if (aName > bName) {
-    return  true;
-  }
-
-  return false;
-}
 
 class RedBlack {
   TreeNode* root = nullptr;
@@ -98,7 +45,7 @@ class RedBlack {
     if (child != nullLeaf) {
       child->parent = node;
     }
-    //relinking children
+    //relinking children here
     if (subtree->parent == nullLeaf) {
       root = subtree;
     }
@@ -139,14 +86,13 @@ class RedBlack {
   // basically i'm making the insert/deleteRotateRecolor functions so i don't have to write out mirrored code
   void insertRotateRecolor(TreeNode*& iNode, bool left) {
     //remember red is 1 and black is 0
-
     // insert cases from https://pages.cs.wisc.edu/~cs400/readings/Red-Black-Trees/ are 1, 2a, 2b
     // also i referenced the code provided on slide 141 of the balanced trees slides from class :3
     TreeNode* papa = iNode->parent; // parent of iNode
     TreeNode* gpa = papa->parent; // grandparent
     TreeNode* uncle = gpa->left; //uncle
     if (left) {
-      uncle = gpa->right; // uncle
+      uncle = gpa->right;
     }
     if (uncle->color == 1) { //case 2b -> uncle is red
       papa->color = 0;
@@ -183,7 +129,6 @@ class RedBlack {
   void removeRotateRecolor(TreeNode* rNode) {
     //referencing this duke thingy:
     // https://users.cs.duke.edu/~reif/courses/alglectures/arge.lectures/Notes-RedBlackTrees.pdf
-    while (rNode != root and rNode->color == 0) {
       bool left = (rNode == rNode->parent->left); //i had to update the value inside the function instead of passing it
       //as a parameter since this value will change as i work upwards
       TreeNode* sibling = rNode->parent->left;
@@ -236,8 +181,6 @@ class RedBlack {
         }
         rNode = root; //it becomes the root (according to the duke reference)
       }
-    }
-    rNode->color = 0; //just making sure i don't mess this value up anywhere
   }
 
   //another helper for the remove function, moves subtrees (duh)
@@ -256,7 +199,7 @@ class RedBlack {
     subtree->parent = deleted->parent;
   }
 
-  //i need the minimum node of a subtree when deleting with 2 children
+  //i need the inorder successor when deleting with 2 children
   //https://users.cs.duke.edu/~reif/courses/alglectures/arge.lectures/Notes-RedBlackTrees.pdf
   TreeNode* minimum(TreeNode* node) {
     while (node->left != nullLeaf) {
@@ -298,9 +241,8 @@ class RedBlack {
       }
 
     TreeNode* getRoot() {
-        return root;
+        return root; //just a quick helper i used when testing out my code :3
       }
-
 
   //the search functions just use standard bst logic. nothing fancy here :)
       TreeNode* search(string id) {
@@ -348,26 +290,26 @@ class RedBlack {
       void insert(Major major, Student student) {
         TreeNode* iNode = new TreeNode(major, student, nullLeaf, nullLeaf);
         iNode->color = 1;
-        TreeNode* tempA = root; //start traversing at the root
-        TreeNode* tempB = nullLeaf; // provisional "parent" of iNode before i insert it
-        while (tempA != nullLeaf) {
-          tempB = tempA;
-          if (tempA->studentID > student.id) { //if root > iNode
-            tempA = tempA->left;
+        TreeNode* traverse = root; //start traversing at the root
+        TreeNode* temp = nullLeaf; // provisional "parent" of iNode before i insert it
+        while (traverse != nullLeaf) {
+          temp = traverse;
+          if (traverse->studentID > student.id) { //if root > iNode
+            traverse = traverse->left;
           }
           else {
-            tempA = tempA->right;
+            traverse = traverse->right;
           }
         }
-        iNode->parent = tempB;
-        if (tempB == nullLeaf) {
+        iNode->parent = temp;
+        if (temp == nullLeaf) {
           root = iNode;
         }
-        else if (tempB->studentID > student.id) { //if tempB > iNode
-          tempB->left = iNode;
+        else if (temp->studentID > student.id) { //if tempB > iNode
+          temp->left = iNode;
         }
         else {
-          tempB->right = iNode;
+          temp->right = iNode;
         }
         while (iNode->parent->color == 1) { //while the color is parent is red (this handles case 1)
           if (iNode->parent == iNode->parent->parent->left) { //figuring out if parent of iNode is a left child or right child
@@ -421,7 +363,10 @@ class RedBlack {
         delete rNode;
 
         if (saveTempColor == 0) {
-        removeRotateRecolor(replace); //doing the red-black fixing stuff here
+          while (replace != root and replace->color == 0) {
+            removeRotateRecolor(replace); //doing the red-black fixing stuff here
+          }
+        replace->color = 0; //just making sure i don't mess this value up anywhere
         }
       }
 };
