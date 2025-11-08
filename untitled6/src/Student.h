@@ -15,16 +15,9 @@ using namespace std;
 #ifndef STUDENT_H
 #define STUDENT_H
 
-inline auto safe_stoi = [](const string& s) {
-    try { return stoi(s); } catch (...) { return 0; }
-};
-inline auto safe_stof = [](const string& s) {
-    try { return stof(s); } catch (...) { return 0.0f; }
-};
-
  struct Student {
      int id;
-     static int id_tracker;
+     int id_tracker = 1;
      string collegeid;
      int iq;
      float prevgpa;
@@ -36,45 +29,18 @@ inline auto safe_stof = [](const string& s) {
      int proj;
      bool job;
     Student(string scollegeid, string siq, string sprevgpa, string sgpa, string sperf, string sec, string scommunication, string sintern, string sproj, string sjob) {
-        id = id_tracker++;
+        id = id_tracker;
+        id_tracker += 1;
         collegeid = scollegeid;
-        iq = safe_stoi(siq);
-        prevgpa = safe_stof(sprevgpa);
-        gpa = safe_stof(sgpa);
-        perf = safe_stoi(sperf);
-        ec = safe_stoi(sec);
-        communication = safe_stoi(scommunication);
+        iq = stoi(siq);
+        prevgpa = stof(sprevgpa);
+        gpa = stof(sgpa);
+        perf = stoi(sperf);
+        ec = stoi(sec);
+        communication = stoi(scommunication);
         if (sintern == "No"){intern = false;} else {intern = true;}
-        proj = safe_stoi(sproj);
+        proj = stoi(sproj);
         if (sjob == "No"){job = false;} else {job = true;}
-
-
-
-
-    }
-};
-
-struct Major { //holds all of the information relevant to the major
-    string year;
-    int num_degrees;
-    string name;
-    float highSalary;
-    float lowSalary;
-    float avgSalary;
-    string popularEmployerType;
-    string popularReasonNotInField;
-    string popularReasonNotWorking;
-    string popularWorkActivity;
-    float employedRate;
-    float unemployRate;
-    int unisWithMajor;
-
-    Major(string a, int b, string w, float c, float d, float x, string e, string f, string g, string h, float i, float y, int z ) :
-      year(a), num_degrees(b), name (w), highSalary(c), lowSalary(d), avgSalary(x), popularEmployerType(e),
-      popularReasonNotInField(f), popularReasonNotWorking(g), popularWorkActivity(h), employedRate(i), unemployRate(y), unisWithMajor(z) {}
-public:
-    string getName() {
-        return name;
     }
 };
 
