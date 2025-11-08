@@ -20,13 +20,10 @@ class HashTable {
       return curr_load_factor;
     }
     //hash function determines index of each key value pair
-    int hash(K key) {
-      int hash_val = 0;
-      string k = key.to_string(); // turns key to a string
-      for (char c : k) { //uses the sum of ASCII char of the key
-        hash_val += static_cast<int>(c);
-      }
-      int index = hash_val % TableSize; //computes for index
+    int hash(K key) const{
+      double num = 0.6180339887;
+      double diff = key * num - int(key * num);
+      int index = int(TableSize * diff); //computes for index
       return index;
     }
     //function that doubles TableSize and rehashes all key, value pairs
@@ -66,7 +63,7 @@ class HashTable {
        }
      }
      //function when called will remove a particular key from the hashtable
-     void remove(K& key) {
+     void remove(const K& key) {
        int index = hash(key); //gets index using hash function
        auto iter = table[index].begin();
        while (iter != table[index].end()) { //iterates through hashtable
@@ -74,6 +71,7 @@ class HashTable {
            iter = table[index].erase(iter);
            --num_elements; //decreases num of elements when deleted
            curr_load_factor = load_factor(); // updates current load factor when num_elements changes
+           return;
          }
          else {
            ++iter;
@@ -81,27 +79,33 @@ class HashTable {
        }
      }
     //function that returns the value in the key value pair when given the key
-     V* get(const K& key) {
+     V& get(const K& key) {
        int index = hash(key);
        for (auto& p : table[index]) {
          if (p.first == key) {
-           return &(p.second);
+           return p.second;
          }
        }
-       return nullptr;
+       throw std::out_of_range("Key not found");
      }
     //this functions checks if the key is in the hashtable
     bool if_contains(const K& key) {
-       if (get(key) == nullptr) {
+       try {
+         get(key);
+         return true;
+       }
+       catch (const runtime_error) {
          return false;
        }
-       return true;
      }
-    int get_size() const {
+    int getNum_elements() const {
        return num_elements;
      }
+    int get_TableSize() const {
+       return TableSize;
+     }
     void clear() {
-     for (auto& list : table[i]) {
+     for (auto& list : table) {
          list.clear();
      }
      num_elements = 0;
