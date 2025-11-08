@@ -40,17 +40,26 @@ int main() {
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
                 }
-                string id;
+                string search_id;
+                int id;
                 cout << "Enter ID:" << endl;
-                cin >> id;
+                cin >> search_id;
+                try{id = stoi(search_id);}
+                catch(...){ cout << "Invalid ID\n" << endl; continue;}
                 student_selected = true;
                 if (dsrb) {
                     //selected_student = rbtree.search(id); (We need to match up the student class and the node class in some way)
                     cout << "Student" << id << " found" << endl;
                 }
                 else {
-                    //selected_student = hashtree.search(id); (We need to match up the student class and the node class in some way)
-                    cout << "Student" << id << " found" << endl;
+                    if (hashtable.if_contains(id)) {
+                        cout << "Student" << id << " found" << endl;
+                        selected_student = &(hashtable.get(id));
+                    }
+                    else {
+                        cout << "Student" << "not" << " found" << endl;
+                    }
+
                 }
                 break;
             }
