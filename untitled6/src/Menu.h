@@ -5,7 +5,7 @@
 #ifndef MENU_H
 #define MENU_H
 #include <iostream>
-//#include "hash.h"
+#include "hash.h"
 #include "student.h"
 #include "red-black.h"
 using namespace std;
@@ -13,6 +13,6 @@ using namespace std;
 
 void DisplayMenu(bool dsrb, bool loaded);
 void Setup();
-void LoadDataSet(RedBlack& rbtree, const string& file); //RedBlack rbtree, HashTable<string, int> hashtable,
+void LoadDataSet(HashTable<string, int> hashtable, RedBlack& rbtree, const string& file); //RedBlack rbtree, HashTable<string, int> hashtable,
 
 #endif //MENU_H

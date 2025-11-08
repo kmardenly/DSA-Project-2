@@ -6,7 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include "Menu.h"
-//#include "hash.h"
+#include "hash.h"
 #include "red-black.h"
 #include "Student.h"
 using namespace std;
@@ -47,7 +47,7 @@ void Setup() {
 
 }
 
-void LoadDataSet(RedBlack& rbtree, const string& file) { //, HashTable<string, int>& hashtable,
+void LoadDataSet(HashTable<string, int> hashtable, RedBlack& rbtree, const string& file) { //, HashTable<string, int>& hashtable,
     ifstream fin(file);
     string line;
     getline(fin, line);

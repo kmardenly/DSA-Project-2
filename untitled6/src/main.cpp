@@ -1,7 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include "Menu.h"
-//#include "hash.h"
+#include "hash.h"
 #include "red-black.h"
 using namespace std;
 
@@ -18,21 +18,21 @@ int main() {
     Student* selected_student;
     int new_input = 0;
     RedBlack rbtree;
-    // HashTable<string, int> hashtree(10000);
+    HashTable<string, int> hashtable(10000);
 
     while(!exited) {
         DisplayMenu(dsrb, loaded);
         string input;
         cin >> input;
         try{new_input = stoi(input);}
-        catch(...){ cout << "Invalid Input" << endl; continue;}
+        catch(...){ cout << "Invalid Input\n" << endl; continue;}
         switch(new_input) {
             // different menu options are in Menu.cpp( AJ will keep working on different options)
             case 0:
                 exited = true;
                 break;
             case 1:
-                LoadDataSet(rbtree, "data/college_student_placement_dataset.csv"); // hashtree,
+                LoadDataSet(hashtable, rbtree, "data/college_student_placement_dataset.csv"); // hashtree,
                 dsrb = true;
                 loaded = true;
                 break;
