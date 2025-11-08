@@ -18,7 +18,7 @@ int main() {
     Student* selected_student;
     int new_input = 0;
     RedBlack rbtree;
-    HashTable<string, int> hashtable(10000);
+    HashTable<int, Student> hashtable(10000);
 
     while(!exited) {
         DisplayMenu(dsrb, loaded);

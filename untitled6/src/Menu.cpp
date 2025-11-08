@@ -47,7 +47,7 @@ void Setup() {
 
 }
 
-void LoadDataSet(HashTable<string, int> hashtable, RedBlack& rbtree, const string& file) { //, HashTable<string, int>& hashtable,
+void LoadDataSet(HashTable<int, Student> hashtable, RedBlack& rbtree, const string& file) { //, HashTable<string, int>& hashtable,
     ifstream fin(file);
     string line;
     getline(fin, line);
@@ -65,9 +65,9 @@ void LoadDataSet(HashTable<string, int> hashtable, RedBlack& rbtree, const strin
         getline(ss, intern, ',');
         getline(ss, projects, ',');
         getline(ss, job, ',');
-        Student s(collegeid, iq, prevgpa, gpa, performance, extra_curriculars, communication, intern, projects, job);
+        const Student s(collegeid, iq, prevgpa, gpa, performance, extra_curriculars, communication, intern, projects, job);
         //cout << collegeid << ", " << iq << ", " << prevgpa << ", " << gpa << ", " << performance << ", " << extra_curriculars << ", " <<  communication << ", " << intern << ", " << projects << ", " << job << endl;
-        //hashtable.insert(Student->id, Student)
+        hashtable.insert(s.id, s);
         //rbtree.insert(s);
     }
 }
