@@ -14,6 +14,8 @@ int main() {
     bool exited = false;
     bool dsrb = false;
     bool loaded = false;
+    bool delete_rb = false;
+    bool delete_hashtable = false;
     Student* selected_student = nullptr;
     int new_input = 0;
     RedBlack rbtree;
@@ -31,7 +33,15 @@ int main() {
                 exited = true;
                 break;
             case 1:
-                LoadDataSet(hashtable, rbtree, "data/college_student_placement_dataset.csv"); // hashtree,
+                if (dsrb && delete_rb) {
+                    RedBlack rbtree;
+                    delete_rb = false;
+                }
+                if (!dsrb && delete_hashtable) {
+                    HashTable<int, Student> hashtable(10000);
+                    delete_rb = true;
+                }
+                LoadDataSet(hashtable, rbtree, "data/college_student_placement_dataset.csv", dsrb); // hashtree,
                 dsrb = true;
                 loaded = true;
                 break;
@@ -172,8 +182,56 @@ int main() {
                     cout << "Error: Load Data First" << endl;
                     break;
                 }
-                dsrb = false;
+                    if (dsrb) {
+                        selected_student = nullptr;
+                        rbtree.~RedBlack();
+                        delete_rb = true;
+                    }
+                    else {
+                        selected_student = nullptr;
+                        hashtable.~HashTable();
+                        delete_hashtable = true;
+                    }
+
+                dsrb = !dsrb;
                 break;
+            case 13:
+                if (!loaded) {
+                    cout << "Error: Load Data First" << endl;
+                    break;
+                }
+                float IQ, prevgpa, cgpa, perf, ec, comm, proj, job, internship;
+                for (int id = 0; id<10000; id++) {
+                    if (dsrb) {
+                        TreeNode* node = rbtree.search(to_string(id));
+                        selected_student = &(node->student);
+                    }
+                    else {
+                        selected_student = &(hashtable.get(id));
+                    }
+                    IQ += selected_student->iq;
+                    prevgpa += selected_student->prevgpa;
+                    cgpa += selected_student->gpa;
+                    perf += selected_student->perf;
+                    ec += selected_student->ec;
+                    comm += selected_student->communication;
+                    proj += selected_student->proj;
+                    if (selected_student->job == true) {
+                        job += 1;
+                    }
+                    if (selected_student->intern == true) {
+                        internship += 1;
+                    }
+                }
+                cout << "Average IQ: " << (IQ/10000) << endl;
+                cout << "Average Previous Semester GPA: " << (prevgpa/10000) << endl;
+                cout << "Average GPA: " << cgpa << endl;
+                cout << "Average Academic Performance: " << (perf/10000) << endl;
+                cout << "Average Extracurricular Amount: " << (ec/10000) << endl;
+                cout << "Average Communication Skills: " << (comm/10000) << endl;
+                cout << "Percent with Internship: " << (internship/10000) << endl;
+                cout << "Percent Landing a Job: " << (job/10000) << endl;
         }
+
     }
 }

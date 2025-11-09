@@ -30,7 +30,7 @@ void DisplayMenu(bool dsrb, bool loaded, Student* selected_student) {
         cout << selected_student->id<< endl << endl;
     }
     else {
-        cout << "N/A" << endl < endl;
+        cout << "N/A" << endl << endl;
     }
 
     cout << "Choose an option below:" << endl << endl;
@@ -54,7 +54,7 @@ void Setup() {
 
 }
 
-void LoadDataSet(HashTable<int, Student> hashtable, RedBlack& rbtree, const string& file) { //, HashTable<string, int>& hashtable,
+void LoadDataSet(HashTable<int, Student> hashtable, RedBlack& rbtree, const string& file, bool dsrb) { //, HashTable<string, int>& hashtable,
     ifstream fin(file);
     string line;
     getline(fin, line);
@@ -74,7 +74,11 @@ void LoadDataSet(HashTable<int, Student> hashtable, RedBlack& rbtree, const stri
         getline(ss, job, ',');
         const Student s(collegeid, iq, prevgpa, gpa, performance, extra_curriculars, communication, intern, projects, job);
         //cout << collegeid << ", " << iq << ", " << prevgpa << ", " << gpa << ", " << performance << ", " << extra_curriculars << ", " <<  communication << ", " << intern << ", " << projects << ", " << job << endl;
-        hashtable.insert(s.id, s);
-        rbtree.insert(s);
+        if (!dsrb) {
+            hashtable.insert(s.id, s);
+        }
+        else {
+            rbtree.insert(s);
+        }
     }
 }
