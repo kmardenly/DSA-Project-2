@@ -15,6 +15,7 @@ using namespace std;
 #ifndef STUDENT_H
 #define STUDENT_H
 
+//safely stores data items from the csv file
 static int safe_stoi(const string& s, int defaultValue = 0) {
     try {
         return stoi(s);
@@ -31,6 +32,8 @@ static float safe_stof(const string& s, float defaultValue = 0.0f) {
     }
 }
 
+
+//student class that acts as the node in both data structures
  struct Student {
      int id;
      static int id_tracker;

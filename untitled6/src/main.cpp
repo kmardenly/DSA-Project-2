@@ -6,9 +6,12 @@
 #include <chrono>
 using namespace std;
 
-
+//sets the id tracker to 0 so we can enumerate all 10,000 students with 10 attributes each
 int Student::id_tracker = 0;
 
+//Our project has 100,000 data points spread across 10,000 student objects stored within a hash map and red black tree, the rdtree is in the .h file and the same for the hash map
+//the menu and the code for loading the data into the structures is found in menu.h
+//we use the chrono to differientiate the times between loading the data and also retrieving a node in milliseconds and microseconds respectively
 
 int main() {
     //set up the loop to stay on the menu unless exited, starts off with no data loaded and no data structure chosen, terminal input, initializing tree, Hashtable has an error currently so commented out
@@ -44,7 +47,7 @@ int main() {
                 }
                 loaded = true;
                 break;
-                //searches for id in both data structures depending on which is toggled
+                //searches for id in both data structures depending on which is toggled, tracks the time to location
             case 2: {
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
@@ -88,6 +91,8 @@ int main() {
                 }
                 break;
             }
+
+                //cases 3 through 12 return individual student's statistics, the selected student object was searched through on the data structure of case 2, unless changed
             case 3:
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
@@ -198,6 +203,8 @@ int main() {
                 }
                 cout << "Student's College ID: " << selected_student->collegeid << endl;
                 break;
+
+                //switches data structure, if you try to switch three times it wont reload anything
             case 13:
                 switches += 1;
                 if (!loaded) {
