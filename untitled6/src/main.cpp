@@ -61,7 +61,7 @@ int main() {
                     TreeNode* node = rbtree.search(to_string(id));
                     auto end = chrono::high_resolution_clock::now();
                     auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
-                    cout << "Student located in " << duration.count() << "microseconds" << endl;
+                    cout << "Student located in " << duration.count() << " microseconds" << endl << endl;
                     if (node) {
                         selected_student = &(node->student);
                     }
@@ -78,7 +78,7 @@ int main() {
                         selected_student = &(hashtable.get(id));
                         auto end = chrono::high_resolution_clock::now();
                         auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
-                        cout << "Student located in " << duration.count() << "microseconds" << endl;
+                        cout << "Student located in " << duration.count() << " microseconds" << endl << endl;
                         cout << "Student " << id << " found" << endl;
                     }
                     else {
