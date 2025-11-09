@@ -59,6 +59,30 @@ static float safe_stof(const string& s, float defaultValue = 0.0f) {
     }
 };
 
+struct Major { //holds all of the information relevant to the major
+    string year;
+    int num_degrees;
+    string name;
+    float highSalary;
+    float lowSalary;
+    float avgSalary;
+    string popularEmployerType;
+    string popularReasonNotInField;
+    string popularReasonNotWorking;
+    string popularWorkActivity;
+    float employedRate;
+    float unemployRate;
+    int unisWithMajor;
+
+    Major(string a, int b, string w, float c, float d, float x, string e, string f, string g, string h, float i, float y, int z ) :
+      year(a), num_degrees(b), name (w), highSalary(c), lowSalary(d), avgSalary(x), popularEmployerType(e),
+      popularReasonNotInField(f), popularReasonNotWorking(g), popularWorkActivity(h), employedRate(i), unemployRate(y), unisWithMajor(z) {}
+public:
+    string getName() {
+        return name;
+    }
+};
+
 //a new helper function for input validation
 //this is pulled verbatim from my (keira) avl project
 static bool isAllDigits(const string& s) {
@@ -69,3 +93,4 @@ static bool isAllDigits(const string& s) {
     return true;
 }
 #endif //STUDENT_H
+
