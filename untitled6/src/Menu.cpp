@@ -52,6 +52,7 @@ void DisplayMenu(bool dsrb, bool loaded, Student* selected_student) {
 }
 
 void LoadDataSet(HashTable<int, Student>& hashtable, RedBlack& rbtree, const string& file, bool dsrb) { //, HashTable<string, int>& hashtable,
+    Student::id_tracker = 0;
     auto start = chrono::high_resolution_clock::now();
     ifstream fin(file);
     string line;

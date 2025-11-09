@@ -21,28 +21,30 @@ int main() {
     RedBlack rbtree;
     HashTable<int, Student> hashtable(10000);
 
+    //loop of the menu, takes an input and turns it to one of the options
     while(!exited) {
         DisplayMenu(dsrb, loaded, selected_student);
         string input;
         cin >> input;
         try{new_input = stoi(input);}
         catch(...){ cout << "Invalid Input\n" << endl; continue;}
-        if (new_input < 0 || new_input > 13) {
+        if (new_input < 0 || new_input > 14) {
             cout << "Invalid Option" << endl;
             continue;
         }
         switch(new_input) {
-            // different menu options are in Menu.cpp( AJ will keep working on different options)
+            // different menu options are in Menu.cpp
             case 0:
                 exited = true;
                 break;
             case 1:
-
+                //switches protects it from reloading the data everytime you switch data structures
                 if (switches < 2) {
-                    LoadDataSet(hashtable, rbtree, "data/college_student_placement_dataset.csv", dsrb); // hashtree,
+                    LoadDataSet(hashtable, rbtree, "data/college_student_placement_dataset.csv", dsrb); //Menu.cpp
                 }
                 loaded = true;
                 break;
+                //searches for id in both data structures depending on which is toggled
             case 2: {
                 if (!loaded) {
                     cout << "Error: Load Data First" << endl;
@@ -55,19 +57,28 @@ int main() {
                 try{id = stoi(search_id);}
                 catch(...){ cout << "Invalid ID\n" << endl; continue;}
                 if (dsrb) {
+                    auto start = chrono::high_resolution_clock::now();
                     TreeNode* node = rbtree.search(to_string(id));
+                    auto end = chrono::high_resolution_clock::now();
+                    auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
+                    cout << "Student located in " << duration.count() << "microseconds" << endl;
                     if (node) {
                         selected_student = &(node->student);
                     }
                     else {
+
                         cout << "Error: Student Not Found" << endl;
                         break;
                     }
                     cout << "Student " << id << " found" << endl;
                 }
                 else {
+                    auto start = chrono::high_resolution_clock::now();
                     if (hashtable.if_contains(id)) {
                         selected_student = &(hashtable.get(id));
+                        auto end = chrono::high_resolution_clock::now();
+                        auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
+                        cout << "Student located in " << duration.count() << "microseconds" << endl;
                         cout << "Student " << id << " found" << endl;
                     }
                     else {
@@ -199,6 +210,7 @@ int main() {
                 }
                 dsrb = !dsrb;
                 break;
+
         }
     }
 }
